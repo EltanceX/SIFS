@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Designed by EltanceX @ShimmerIsland (2022). -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shimmer Island</title>
+    <style>
+        body {
+            overflow: hidden;
+            /* background-image: url("wallpaper/win10_light.jpg"); */
+            background-image: url("wallpaper/Windows10_abstract_4k.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-clip: content-box;
+        }
+        
+        .basicWindow {
+            border-radius: 3px;
+            background-image: linear-gradient(to bottom right, rgb(243, 245, 247), rgb(219, 237, 253));
+            position: absolute;
+            overflow: auto;
+            box-shadow: none;
+            margin: 0;
+            position: absolute;
+            transition-property: box-shadow;
+            transition-timing-function: linear;
+            transition-duration: .1s;
+        }
+        
+        .windowTopBar {
+            background-color: rgb(221, 221, 221);
+            position: absolute;
+            width: 100%;
+            height: 25px;
+        }
+        
+        .windowTopBar>* {
+            position: absolute;
+        }
+        
+        .windowBody {
+            position: absolute;
+            top: 25px;
+            width: 100%;
+            height: calc(100% - 25px);
+            display: block;
+            overflow: auto;
+        }
+        
+        .windowTitle {
+            user-select: none;
+            cursor: move;
+            left: 34px;
+            margin: 0;
+            height: 100%;
+            width: calc(100% - 34px - 82px);
+            /* border: 1px solid red; */
+            overflow: hidden;
+            /* text-align: center; */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 22px;
+            /* color: #585858; */
+            color: rgb(255, 255, 255);
+            padding: 0;
+        }
+        
+        .wIcon {
+            user-select: none;
+            margin: 0;
+            height: 100%;
+            width: 25px;
+            /* border: 1px solid red; */
+            cursor: pointer;
+        }
+        
+        .wIcon:hover {
+            background-color: rgba(109, 109, 109, 0.5);
+        }
+        
+        .wIcon:active {
+            background-color: rgba(22, 22, 22, 0.5);
+        }
+        
+        .main {
+            position: absolute;
+            margin: 0;
+            left: 0;
+            top: 0;
+            padding: 0;
+            width: 100%;
+            height: calc(100% - 30px);
+            /* background-color: rgb(246, 255, 254); */
+        }
+        
+        .bottomBar {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 30px;
+            /* background-color: rgba(184, 184, 184, 0.5); */
+            background-image: linear-gradient(to right, rgba(189, 189, 189, 0.6), rgba(146, 146, 146, 0.6));
+            z-index: 10000;
+            user-select: none;
+        }
+        
+        .dashedBox {
+            position: absolute;
+            border-style: dashed;
+            margin: 0;
+            padding: 0;
+            /* top: 100px;
+            left: 100px;
+            height: 200px;
+            width: 200px; */
+            border-radius: 5px;
+            border-color: rgba(97, 97, 97, 0.753);
+            border-width: 2px;
+            cursor: se-resize;
+        }
+        /* .curtain {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: calc(100% - 30px);
+            background-color: rgb(85, 85, 85, 0.5);
+        } */
+        
+        .settingIcon {
+            position: absolute;
+            left: 0;
+            margin: 0;
+            height: 100%;
+        }
+        
+        .settingIcon:hover {
+            background-color: rgba(163, 163, 163, 0.5);
+        }
+        
+        .settingIcon:active {
+            background-color: rgba(117, 117, 117, 0.5);
+        }
+        
+        .taskbar {
+            position: absolute;
+            left: 40px;
+            height: 100%;
+            width: calc(100% - 120px);
+            /* border: 1px solid red; */
+            margin: 0;
+            overflow: hidden;
+            user-select: none;
+        }
+        
+        .clock {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            right: 10px;
+            width: 70px;
+            top: 0;
+            height: 100%;
+            user-select: none;
+        }
+        
+        .clock:hover {
+            background-color: rgba(37, 37, 37, 0.3);
+        }
+        
+        .clock:active {
+            background-color: rgba(37, 37, 37, 0.5);
+        }
+        
+        .clock>* {
+            top: -2px;
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: white;
+            width: 100%;
+            position: absolute;
+            font-size: 15px;
+        }
+        
+        .task {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            margin-right: 2px;
+            /* border:1px solid green; */
+            height: 30px;
+            width: 30px;
+            display: inline-block;
+            overflow: hidden;
+            background-color: rgba(214, 229, 255, 0.562);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.74);
+            /* border-radius: 3px 3px 0 0; */
+        }
+        
+        .task:hover {
+            background-color: rgba(247, 247, 247, 0.5);
+        }
+        
+        .task:active {
+            background-color: rgba(207, 207, 207, 0.5);
+        }
+        
+        .grayLine {
+            position: absolute;
+            height: 5px;
+            /* background-color: rgba(189, 189, 189, 0.705); */
+            background-color: rgba(207, 207, 207, 0.712);
+            ;
+            z-index: 10000;
+            transform: translate(0, 0);
+            transition-duration: .3s;
+            transition-timing-function: ease-out;
+            transition-property: transform, width;
+        }
+        
+        .softwareBody {
+            position: absolute;
+            left: 5px;
+            top: 0;
+            z-index: 3;
+            height: calc(100% - 30px);
+            width: calc(100% - 10px);
+            /* height: auto; */
+            /* border: 1px solid red; */
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+        
+        .softwareBox {
+            position: relative;
+            margin-right: 20px;
+            margin-top: 10px;
+            /* border: 1px solid green; */
+            height: 110px;
+            width: 80px;
+            display: inline-block;
+            overflow: hidden;
+            box-sizing: border-box;
+            background-image: none;
+            border: none;
+        }
+        
+        .softwareBox:hover {
+            background-color: rgba(214, 214, 214, 0.5);
+        }
+        
+        .softwareBox:active {
+            background-color: rgba(173, 173, 173, 0.5);
+        }
+        
+        .softwareIcon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 0;
+            height: 50px;
+            left: 15px;
+            width: 50px;
+            /* -webkit-user-drag: none; */
+            /* border: 1px solid blue; */
+        }
+        
+        .softwareName {
+            position: absolute;
+            left: 5%;
+            top: 55px;
+            margin: 0;
+            /* height: calc(100% - 50px); */
+            height: fit-content;
+            width: 90%;
+            /* border: 1px solid yellow; */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 20px;
+            text-align: center;
+            overflow: hidden;
+            white-space: normal;
+            word-break: break-all;
+            user-select: none;
+            color: rgb(255, 255, 255);
+            text-shadow: 0 0 2px rgba(0, 0, 0, 0.9);
+        }
+        
+        .selectCurtain {
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 0;
+            top: 0;
+            z-index: 20000;
+            height: 100%;
+            width: 100%;
+            cursor: se-resize;
+        }
+        
+        
+        * {
+            box-sizing: border-box;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="/css/SW_WindowManager.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/SW_Debug.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/SW_Error.css"/>
+</head>
+
+<body>
+    <div class="main"></div>
+    <div class="bottomBar"></div>
+</body>
+<script>
+    var main = document.getElementsByClassName("main")[0];
+    var bottomBar = document.getElementsByClassName("bottomBar")[0];
+    var resourceUrl = `${window.location.protocol}//${window.location.host}/`;
+    var mouseEvents = {
+        lastClick: {},
+        doubleClickEvent: null,
+        doubleClickIntervalTime: 300,
+        regDoubleClick: function(listenE, event, intervalTime) {
+            if (this.lastClick.e === listenE && new Date().getTime() - this.lastClick.time < (intervalTime ? intervalTime : this.doubleClickIntervalTime)) {
+                try {
+                    this.doubleClickEvent(listenE);
+                } catch (err) {
+                    if (err) {
+                        throw err;
+                    }
+                }
+                this.lastClick.e = null;
+            } else {
+                this.doubleClickEvent = event;
+                this.lastClick.e = listenE;
+                this.lastClick.time = new Date().getTime();
+            }
+        }
+    }
+
+    function timer(time, obj, callback) {
+        setTimeout(() => {
+            callback(obj);
+        }, time);
+    }
+
+    function getSquareByE(e) {
+        var realpos = e.getBoundingClientRect();
+        return {
+            pos0: [realpos.left, realpos.top],
+            pos1: [realpos.left + realpos.width, realpos.top + realpos.height]
+        }
+    }
+
+    function disableDrag(e) {
+        e.ondragstart = function() {
+            return false;
+        }
+    }
+
+    function randomNum(minNum, maxNum) {
+        switch (arguments.length) {
+            case 1:
+                return parseInt(Math.random() * minNum + 1, 10);
+                break;
+            case 2:
+                return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+                break;
+            default:
+                return 0;
+                break;
+        }
+    }
+
+    function minimizeEvent(windowObj) {
+        if (windowObj.minimize) {
+            windowObj.e.style.display = "block";
+        } else {
+            var grayLine = document.createElement("div");
+            grayLine.className = "grayLine";
+            var pos0 = [parseInt(windowObj.e.style.left), parseInt(windowObj.e.style.top)];
+            grayLine.style.left = pos0[0] + "px";
+            grayLine.style.top = pos0[1] + "px";
+            grayLine.style.width = windowObj.e.style.width;
+            main.appendChild(grayLine);
+            var bottomBarIcon = window.sys.tasks[window.sys.getTaskIndexByWindow(windowObj.e)].e;
+            grayLine.style.transform = `translate(${bottomBarIcon.getBoundingClientRect().left - pos0[0]}px, ${bottomBarIcon.getBoundingClientRect().top - pos0[1]}px)`;
+            grayLine.style.width = "30px";
+            windowObj.e.style.display = "none";
+            setTimeout(() => {
+                grayLine.parentNode.removeChild(grayLine);
+            }, 350);
+        }
+        windowObj.minimize = !windowObj.minimize;
+    }
+
+    function classicWordStyle(e) {
+        e.style.fontFamily = `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`;
+    }
+
+    function clearDocumentMouseListener() {
+        document.onmousemove = null;
+        document.onmouseup = null;
+    }
+
+    function maximizeEvent(obj) {
+        if (obj.maximize.isMaximize) {
+            obj.maximize.isMaximize = false;
+            obj.e.style.left = obj.maximize.beforePos[0] + "px";
+            obj.e.style.top = obj.maximize.beforePos[1] + "px";
+            obj.e.style.width = obj.maximize.beforeSize[0] + "px";
+            obj.e.style.height = obj.maximize.beforeSize[1] + "px";
+            obj.childElements.expandE.src = resourceUrl + "icon/expand.png";
+        } else {
+            obj.maximize.isMaximize = true;
+            obj.maximize.beforePos = [parseInt(obj.e.style.left), parseInt(obj.e.style.top)];
+            obj.maximize.beforeSize = [parseInt(obj.e.style.width), parseInt(obj.e.style.height)];
+            obj.e.style.height = window.sys.windowHeight - 30 + "px";
+            obj.e.style.width = window.sys.windowWidth + "px";
+            obj.e.style.top = "0";
+            obj.e.style.left = "0";
+            obj.childElements.expandE.src = resourceUrl + "icon/unexpand.png";
+        }
+    }
+
+    function promoteLayer(e) {
+        e.style.zIndex = window.sys.getMaxZIndex() + 10 + "";
+        window.sys.recalculateLayer();
+    }
+
+    function initWindowStyle(obj) {
+        obj.e.className = "basicWindow";
+        obj.e.style.height = 300 + "px";
+        obj.e.style.width = 300 + "px";
+        obj.e.style.top = randomNum(10, 70) + "px";
+        obj.e.style.left = randomNum(10, 70) + "px";
+        obj.e.onclick = function(ev) {
+                if (window.sys.lastWindowFocus !== null) {
+                    window.sys.lastWindowFocus.style.boxShadow = "none";
+                }
+                window.sys.lastWindowFocus = this;
+                this.style.boxShadow = "2px 2px 15px rgba(131, 131, 131, 0.459)";
+                promoteLayer(this);
+                ev.cancelBubble = true;
+            }
+            // e.style.border = "1px solid red";
+        var topBar = document.createElement("div");
+        topBar.className = "windowTopBar";
+        var icon = document.createElement("img");
+        icon.className = "wIcon";
+        icon.src = resourceUrl + "icon/defaultIcon.png";
+        icon.ondblclick = function() {
+            if (obj.maximize.enable) {
+                maximizeEvent(obj);
+            }
+        }
+        obj.childElements.iconE = icon;
+        var title = document.createElement("div");
+        title.className = "windowTitle";
+        title.title = `Untitled [Task: ${obj.id}]`;
+        title.innerHTML = "Untitled";
+        obj.childElements.titleE = title;
+        title.onmousedown = function(e) {
+            e = e || window.event;
+            promoteLayer(obj.e);
+            var pos0 = [parseInt(obj.e.style.left), parseInt(obj.e.style.top)],
+                pos1 = [e.clientX, e.clientY];
+            document.onmousemove = function(e2) {
+                if (obj.maximize.isMaximize) {
+                    maximizeEvent(obj);
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                } else {
+                    e2 = e2 || window.event;
+                    obj.e.style.top = pos0[1] + e2.clientY - pos1[1] + "px";
+                    obj.e.style.left = pos0[0] + e2.clientX - pos1[0] + "px";
+                }
+            }
+            document.onmouseup = function() {
+                obj.e.style.top = parseInt(obj.e.style.top) < 0 ? "0" : obj.e.style.top;
+                clearDocumentMouseListener();
+            }
+        }
+
+        var closeWindow = document.createElement("img");
+        closeWindow.className = "wIcon";
+        closeWindow.style.right = "0";
+        closeWindow.src = resourceUrl + "icon/x.png";
+        // closeWindow.style.backgroundImage = "url('https://www.baidu.com/favicon.ico')"
+        // closeWindow.src = "https://www.baidu.com/favicon.ico";
+        closeWindow.onclick = function(ev) {
+            window.sys.closeWindow(obj.e);
+            ev.cancelBubble = true;
+        }
+        var expand = document.createElement("img");
+        expand.className = "wIcon";
+        expand.style.right = "25px";
+        expand.src = resourceUrl + "icon/expand.png";
+        obj.childElements.expandE = expand;
+        expand.onclick = function(ev) {
+            ev.cancelBubble = true;
+            if (obj.maximize.isMaximize) {
+                maximizeEvent(obj);
+            } else {
+                var dashedBox = document.createElement("div");
+                dashedBox.className = "dashedBox";
+                var pos = [parseInt(obj.e.style.left), parseInt(obj.e.style.top)];
+                dashedBox.style.left = pos[0] + "px";
+                dashedBox.style.top = pos[1] + "px";
+                dashedBox.style.zIndex = "10000";
+                var selectCurtain = document.createElement("div");
+                selectCurtain.className = "selectCurtain";
+                selectCurtain.onclick = function(ev2) {
+                        ev2.cancelBubble = true;
+                        obj.e.style.width = dashedBox.style.width;
+                        obj.e.style.height = dashedBox.style.height;
+                        dashedBox.parentNode.removeChild(dashedBox);
+                        selectCurtain.parentNode.removeChild(selectCurtain);
+                        promoteLayer(obj.e);
+                        document.onclick = null;
+                        clearDocumentMouseListener();
+                    }
+                    // document.onclick = function () {
+                    //     obj.e.style.width = dashedBox.style.width;
+                    //     obj.e.style.height = dashedBox.style.height;
+                    //     dashedBox.parentNode.removeChild(dashedBox);
+                    //     promoteLayer(obj.e);
+                    //     document.onclick = null;
+                    //     clearDocumentMouseListener();
+                    // }
+                    // document.onclick = dashedBox.onclick;
+                document.body.appendChild(selectCurtain);
+                main.appendChild(dashedBox);
+                document.onmousemove = function(e) {
+                    e = e || window.event;
+                    var width = e.clientX - pos[0] + 5;
+                    var height = e.clientY - pos[1] + 5;
+                    if (width > obj.maxSize[0]) {
+                        width = obj.maxSize[0];
+                    } else if (width < obj.minSize[0]) {
+                        width = obj.minSize[0];
+                    }
+                    if (height > obj.maxSize[1]) {
+                        height = obj.maxSize[1];
+                    } else if (height < obj.minSize[1]) {
+                        height = obj.minSize[1];
+                    }
+                    dashedBox.style.width = width + "px";
+                    dashedBox.style.height = height + "px";
+                }
+            }
+        }
+        var minimize = document.createElement("img");
+        minimize.className = "wIcon";
+        minimize.style.right = "50px";
+        minimize.src = resourceUrl + "icon/minimize.png";
+        minimize.onclick = function(ev) {
+            minimizeEvent(obj);
+            ev.cancelBubble = true;
+        }
+
+        var windowBody = document.createElement("div");
+        windowBody.className = "windowBody";
+        obj.childElements.windowBody = windowBody;
+
+        topBar.appendChild(icon);
+        topBar.appendChild(title);
+        topBar.appendChild(expand);
+        topBar.appendChild(minimize);
+        topBar.appendChild(closeWindow);
+        obj.e.appendChild(topBar);
+        obj.e.appendChild(windowBody);
+    }
+
+    function getValueByPath(json, path, i) {
+        i = i === undefined ? 0 : i;
+        return i === path.length - 1 ? json[path[i]] : getValueByPath(json[path[i]], path, ++i);
+    }
+
+    function quickSort(arr, path) {
+        if (arr.length <= 1) {
+            return arr;
+        }
+        var arrCopy = [].concat(arr);
+        var left = [];
+        var right = [];
+        var middle = arrCopy.splice(Math.floor(arrCopy.length / 2), 1);
+        for (var i = 0; i < arrCopy.length; i++) {
+            if (parseFloat(getValueByPath(arrCopy[i], path)) > parseFloat(getValueByPath(middle[0], path))) {
+                right.push(arrCopy[i]);
+            } else {
+                left.push(arrCopy[i]);
+            }
+        }
+        return quickSort(left, path).concat(middle).concat(quickSort(right, path));
+
+    }
+    class system {
+        constructor() {
+            var This = this;
+            var setting = document.createElement("img");
+            disableDrag(setting);
+            setting.className = "settingIcon";
+            setting.src = resourceUrl + "icon/windows.png";
+            setting.onclick = function(ev) {
+                This.createWindow(new basicWindow());
+                ev.cancelBubble = true;
+            }
+            var taskbar = document.createElement("div");
+            taskbar.className = "taskbar";
+            this.taskbarE = taskbar;
+            var clock = document.createElement("div");
+            clock.className = "clock";
+            clock.onclick = function() {
+                This.clockMode >= 1 ? (This.clockMode = 0) : (This.clockMode++);
+                // console.log(window.sys.clockMode);
+                if (!This.clockMode) {
+                    clockTime.style.fontSize = "15px";
+                } else if (This.clockMode === 1) {
+                    clockDate.innerHTML = "";
+                    clockTime.innerHTML = "";
+                    clockTime.style.fontSize = "28px";
+                }
+            }
+            var clockTime = document.createElement("div");
+            clockTime.style.height = "15px";
+            // clockTime.style.fontSize ="30px";
+            var clockDate = document.createElement("div");
+            clockDate.style.top = "15px";
+            setInterval(function() {
+                var date = new Date();
+                if (!This.clockMode) {
+                    clockTime.innerHTML = String(date).split(" ")[4];
+                    clockDate.innerHTML = date.toLocaleDateString();
+                } else if (This.clockMode === 1) {
+                    clockTime.innerHTML = String(date).split(" ")[4].split(":").splice(0, 2).join(":");
+                }
+            }, 1000);
+            clock.appendChild(clockTime);
+            clock.appendChild(clockDate);
+            bottomBar.appendChild(clock);
+            bottomBar.appendChild(setting);
+            bottomBar.appendChild(taskbar);
+
+        }
+        clockMode = 0;
+        taskbarE = null;
+        tasks = [];
+        lastWindowFocus = null;
+        modifyTaskPosition(dragE, targetE, before) {
+            // console.log(dragE, targetE);
+            this.taskbarE.removeChild(dragE);
+            // console.log(targetE.nextElementSibling);
+            before ? this.taskbarE.insertBefore(dragE, targetE) : (targetE.nextElementSibling ? this.taskbarE.insertBefore(dragE, targetE.nextElementSibling) : this.taskbarE.appendChild(dragE));
+
+        }
+        getTaskIndexByElement(e) {
+            for (var i = 0; i < this.tasks.length; i++) {
+                if (e === this.tasks[i].e) {
+                    return i;
+                }
+            }
+        }
+        getTaskIndexByWindow(w) {
+            for (var i = 0; i < this.tasks.length; i++) {
+                if (w === this.tasks[i].windowObj.e) {
+                    return i;
+                }
+            }
+        }
+        addTaskIcon(windowObject) {
+            var This = this;
+            var taskDiv = document.createElement("img");
+            disableDrag(taskDiv);
+            taskDiv.className = "task";
+            taskDiv.src = windowObject.iconUrl;
+            this.tasks.push({
+                windowObj: windowObject,
+                e: taskDiv
+            });
+            taskDiv.onclick = function(ev) {
+                windowObject.e.style.display = "block";
+                windowObject.minimize = false;
+                promoteLayer(windowObject.e);
+                ev.cancelBubble = true;
+            }
+            taskDiv.ondblclick = function() {
+                minimizeEvent(windowObject);
+            }
+            taskDiv.onmouseover = function(ev) {
+                // document.body.style.boxShadow
+                windowObject.e.style.boxShadow = "2px 2px 15px rgba(176, 101, 247, 0.459)";
+            }
+            taskDiv.onmouseout = function(ev) {
+                windowObject.e === window.sys.lastWindowFocus ? (windowObject.e.style.boxShadow = "2px 2px 15px rgba(131, 131, 131, 0.459)") : (windowObject.e.style.boxShadow = "none");
+            }
+            taskDiv.title = windowObject.childElements.titleE.title;
+            taskDiv.onmousedown = function() {
+                var drag = false;
+                var moveIcon = null;
+                var realpos = taskDiv.getBoundingClientRect();
+                document.onmousemove = function(e) {
+                    if (!drag) {
+                        drag = true;
+                        moveIcon = document.createElement("img");
+                        disableDrag(moveIcon);
+                        moveIcon.src = taskDiv.src;
+                        moveIcon.style.position = "absolute";
+                        moveIcon.style.top = realpos.top + "px";
+                        moveIcon.style.left = realpos.left + "px";
+                        moveIcon.style.height = taskDiv.offsetHeight + "px";
+                        moveIcon.style.width = taskDiv.offsetWidth + "px";
+                        moveIcon.style.zIndex = "20000";
+                        moveIcon.style.border = "1px solid white";
+                        main.appendChild(moveIcon);
+                    }
+                    e = e || window.event;
+                    moveIcon.style.left = e.clientX - realpos.width / 2 + "px";
+
+                }
+                document.onmouseup = function(e) {
+                    if (drag) {
+                        e = e || window.event;
+                        var lastTaskE = This.taskbarE.lastElementChild;
+                        var firstTaskE = This.taskbarE.firstElementChild;
+                        if (e.clientX >= getSquareByE(lastTaskE).pos1[0] && lastTaskE !== taskDiv) {
+                            This.modifyTaskPosition(taskDiv, lastTaskE, false);
+                        } else if (e.clientX <= getSquareByE(firstTaskE).pos0[0] && firstTaskE !== taskDiv) {
+                            This.modifyTaskPosition(taskDiv, firstTaskE, true);
+                        } else {
+                            for (var i = 0; i < This.tasks.length; i++) {
+                                var square = getSquareByE(This.tasks[i].e);
+                                if (e.clientX >= square.pos0[0] && e.clientX <= square.pos1[0] && taskDiv !== This.tasks[i].e) {
+                                    This.modifyTaskPosition(taskDiv, This.tasks[i].e, e.clientX - square.pos0[0] < parseInt(moveIcon.offsetWidth) / 2);
+                                    i = Infinity;
+                                }
+                            }
+                        }
+                        main.removeChild(moveIcon);
+                    }
+                    clearDocumentMouseListener();
+                }
+            }
+            this.taskbarE.appendChild(taskDiv);
+            return this.tasks[this.tasks.length - 1];
+        }
+        removeTaskIcon(taskIndex) {
+            if (typeof taskIndex !== "number") {
+                throw new Error("removeTaskIcon: index is not a number or an object.");
+                return false;
+            }
+            var taskElement = this.tasks.splice(taskIndex, 1)[0];
+            try {
+                taskElement.e.parentNode.removeChild(taskElement.e);
+            } catch (err) {
+                if (err) {
+                    throw err;
+                }
+            }
+            return true;
+        }
+
+
+
+        windows = [];
+        totalCreateTime = -1;
+        get windowHeight() {
+            return window.innerHeight;
+        }
+        get windowWidth() {
+            return window.innerWidth;
+        }
+        recalculateLayer() {
+            if (this.windows.length > 0) {
+                var windows = quickSort(this.windows, ['e', 'style', 'zIndex']);
+                var r = 1;
+                for (var i = 0; i < windows.length; i++) {
+                    if (windows[i].e.style.zIndex !== r * 10 + "") {
+                        windows[i].e.style.zIndex = r * 10 + "";
+                    }
+                    r++;
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+        getMaxZIndex() {
+            var max = 0;
+            for (var i = 0; i < this.windows.length; i++) {
+                if (parseInt(this.windows[i].e.style.zIndex) > max) {
+                    max = parseInt(this.windows[i].e.style.zIndex);
+                }
+            }
+            return max;
+        }
+        closeWindow(e) { //e(int) 根据窗口ID关闭窗口 e(obj)根据窗口元素关闭窗口
+            var index;
+            if (typeof e === "number") {
+                index = this.getWindowIndexById(e);
+            } else if (typeof e === "object") {
+                index = this.getWindowIndexByElement(e);
+            }
+            if (index === undefined) {
+                return false;
+            } else {
+                var canBeClosed = true;
+                if (typeof this.windows[index].beforeWindowClosed == "function") {
+                    canBeClosed = this.windows[index].beforeWindowClosed();
+                }
+                if (canBeClosed) {
+                    //clear interval
+                    // for (i in this.windows[index].intervals) {
+                    //     try {
+                    //         clearInterval(this.windows[index][i].interval);
+                    //     } catch (err) {
+                    //         if (err) {
+                    //             throw err;
+                    //         }
+                    //     }
+                    // }
+                    for (var i = 0; i < this.windows[index].intervals.length; i++) {
+                        try {
+                            clearInterval(this.windows[index].intervals[i].interval);
+                        } catch (err) {
+                            if (err) {
+                                throw err;
+                            }
+                        }
+                    }
+                    //delete bottom bar icon
+                    this.removeTaskIcon(this.getTaskIndexByWindow(this.windows[index].e));
+
+                    //delete window
+                    this.windows[index].e.parentNode.removeChild(this.windows[index].e);
+                    var windowClosed = this.windows.splice(index, 1);
+                    this.recalculateLayer();
+                    return windowClosed;
+                } else if (canBeClosed === false) {
+                    return false;
+                } else {
+                    throw new Error("Function 'beforeWindowClosed' must have a return !");
+                }
+            }
+        }
+        closeAll() {
+            var copyArray = [].concat(this.windows);
+            for (var i = 0; i < copyArray.length; i++) {
+                this.closeWindow(copyArray[i].e);
+            }
+        }
+        getWindowIndexByElement(e) {
+            for (var i = 0; i < this.windows.length; i++) {
+                if (e === this.windows[i].e) {
+                    return i;
+                }
+            }
+        }
+        getWindowIndexById(id) {
+            for (var i = 0; i < this.windows.length; i++) {
+                if (id === this.windows[i].id) {
+                    return i;
+                }
+            }
+        }
+        getWindowObjectsByType(type) {
+            var objs = [];
+            for (var i = 0; i < this.windows.length; i++) {
+                if (this.windows[i].type === type) {
+                    objs.push(this.windows[i]);
+                }
+            }
+            return objs;
+        }
+        createWindow(windowObj) {
+            if (typeof windowObj !== "object") {
+                throw new Error("CreateWindowFunc: Window can only be an Object.");
+            }
+            if (this.windows.indexOf(windowObj) == -1) {
+                this.windows.push(windowObj);
+                this.recalculateLayer();
+                main.appendChild(windowObj.e);
+                this.addTaskIcon(windowObj);
+                return windowObj;
+            } else {
+                throw new Error("CreateWindowFunc: duplicate window.");
+            }
+        }
+    }
+    // var sys = new system();
+    class basicWindow {
+        set setTitle(title) {
+            this.childElements.titleE.title = title + ` [Task: ${this.id}]`;
+            this.childElements.titleE.innerHTML = title;
+        }
+        set setIcon(url) {
+            this.iconUrl = url;
+            this.childElements.iconE.src = url;
+            if (window.sys.getTaskIndexByWindow(this.e)) {
+                window.sys.tasks[window.sys.getTaskIndexByWindow(this.e)].e.src = url;
+            }
+        }
+        iconUrl = resourceUrl + "icon/defaultIcon.png";
+        childElements = {
+
+        }
+        maximize = {
+            enable: true,
+            isMaximize: false,
+            beforePos: [0, 0],
+            beforeSize: [300, 300]
+        }
+        minimize = false;
+        minSize = [200, 200];
+        maxSize = [window.sys.windowWidth, window.sys.windowHeight];
+        type = "DEFAULT";
+        constructor(callback) {
+            var e = document.createElement("div");
+            disableDrag(e);
+            this.id = ++window.sys.totalCreateTime;
+            this.createdDateFunc = new Date();
+            this.e = e;
+            this.intervals = [];
+            e.style.zIndex = window.sys.getMaxZIndex() + 10 + "";
+            window.sys.recalculateLayer();
+            initWindowStyle(this);
+            if (typeof callback === "function") {
+                callback(this);
+            }
+        }
+    }
+    class initSoftwareBox {
+        softwares = [];
+        lastFocus = null;
+        id = -1;
+        constructor() {
+            var softwareBody = document.createElement("div");
+            softwareBody.className = "softwareBody";
+            softwareBody.onclick = function(ev) {
+                window.softwareSys.unfocusedLast();
+                ev.cancelBubble = true;
+            }
+            this.body = softwareBody;
+            main.appendChild(softwareBody);
+        }
+        addSoftware(softwareObject) {
+            this.softwares.push(softwareObject);
+            this.body.appendChild(softwareObject.e);
+        }
+        getIndexByE(e) {
+            for (var i = 0; i < this.softwares.length; i++) {
+                if (this.softwares[i].e === e) {
+                    return i;
+                }
+            }
+        }
+        focusOn(index) {
+            var obj = this.softwares[index];
+            obj.e.style.backgroundImage = "linear-gradient(to bottom right, rgba(232, 255, 254, 0.4), rgba(219, 241, 255, 0.4))";
+            obj.e.style.border = "1px solid rgba(141, 198, 245, 0.712)";
+            this.lastFocus = obj;
+            for (var i = 0; i < this.softwares.length; i++) {
+                var softwareE = this.softwares[i].e;
+                if (i !== index && (softwareE.style.backgroundImage !== "none" || softwareE.style.border !== "none")) {
+                    softwareE.style.backgroundImage = "none";
+                    softwareE.style.border = "none";
+                }
+            }
+        }
+        unfocusedLast() {
+            if (this.lastFocus) {
+                var obj = this.lastFocus;
+                obj.e.style.backgroundImage = "none";
+                obj.e.style.border = "none";
+            }
+        }
+        replaceLocation(focusE, targetE) {
+            var objIndex1 = this.getIndexByE(focusE);
+            this.focusOn(objIndex1);
+            var objIndex2 = this.getIndexByE(targetE);
+            this.softwares.splice(objIndex1, 1, this.softwares.splice(objIndex2, 1, this.softwares[objIndex1])[0]);
+
+            this.body.removeChild(focusE);
+            var temporaryE = document.createElement("div");
+            temporaryE.style.display = "none";
+            this.body.appendChild(temporaryE);
+
+            // console.log(this.softwares[objIndex2 + 1].e.insertBefore(document.createElement("img")));
+            // this.softwares[objIndex2 + 1].e.insertBefore(softwareE1);
+            // this.body.removeChild(softwareE2);
+            // this.softwares[objIndex1 + 1].e.insertBefore(softwareE2);
+            // this.body.removeChild(temporaryE);
+            this.body.insertBefore(focusE, this.softwares[objIndex2 + 1] === undefined ? temporaryE : this.softwares[objIndex2 + 1].e);
+            this.body.removeChild(targetE);
+            this.body.insertBefore(targetE, this.softwares[objIndex1 + 1] === undefined ? temporaryE : this.softwares[objIndex1 + 1].e);
+            this.body.removeChild(temporaryE);
+        }
+    }
+    class software {
+        constructor(iconUrl, softwareName, callbackThis, mouseDownCallbackE, onclickCallbackE) {
+            var softwareBox = document.createElement("div");
+            softwareBox.className = "softwareBox";
+            softwareBox.onclick = function(ev) {
+                window.softwareSys.focusOn(window.softwareSys.getIndexByE(this));
+                if (typeof onclickCallbackE === "function") {
+                    onclickCallbackE(this);
+                }
+                ev.cancelBubble = true;
+            }
+
+            var icon = document.createElement("img");
+            disableDrag(icon);
+            icon.src = iconUrl === undefined ? resourceUrl + "icon/software.png" : iconUrl;
+            icon.className = "softwareIcon";
+            var title = document.createElement("div");
+            title.className = "softwareName";
+            title.innerHTML = softwareName === undefined ? "Software" : softwareName;
+            this.iconE = icon;
+            this.nameE = title;
+            softwareBox.onmousedown = function() {
+                var drag = false;
+                var iconDrag;
+                if (typeof mouseDownCallbackE === "function") {
+                    mouseDownCallbackE(this);
+                }
+                document.onmousemove = function(e) {
+                    if (!drag) {
+                        iconDrag = document.createElement("div");
+                        iconDrag.style.position = "absolute";
+                        iconDrag.style.height = softwareBox.offsetHeight + "px";
+                        iconDrag.style.width = softwareBox.offsetWidth + "px";
+                        iconDrag.style.zIndex = "10000";
+                        var dragDivIcon = document.createElement("img");
+                        dragDivIcon.className = "softwareIcon";
+                        dragDivIcon.src = icon.src;
+                        var dragDivName = document.createElement("div");
+                        dragDivName.className = "softwareName";
+                        dragDivName.innerHTML = title.innerHTML;
+                        iconDrag.appendChild(dragDivIcon);
+                        iconDrag.appendChild(dragDivName);
+                        main.appendChild(iconDrag);
+                        drag = true;
+                    }
+                    e = e || window.event;
+                    iconDrag.style.left = e.clientX + "px";
+                    iconDrag.style.top = e.clientY + "px";
+                }
+                document.onmouseup = function(e) {
+                    e = e || window.event;
+                    if (drag) {
+                        iconDrag.parentNode.removeChild(iconDrag);
+                        for (var i = 0; i < window.softwareSys.softwares.length; i++) {
+                            var square = getSquareByE(window.softwareSys.softwares[i].e);
+                            if (e.clientX >= square.pos0[0] && e.clientX <= square.pos1[0] && e.clientY >= square.pos0[1] && e.clientY <= square.pos1[1] && softwareBox !== window.softwareSys.softwares[i].e) {
+                                window.softwareSys.replaceLocation(softwareBox, window.softwareSys.softwares[i].e);
+                                i = Infinity;
+                                // window.softwareSys.softwares[i].e.style.border = "1px dotted white";
+                            }
+                        }
+                        // console.log(window.softwareSys.body.innerHTML);
+                    }
+                    clearDocumentMouseListener();
+                }
+            }
+            softwareBox.appendChild(title);
+            softwareBox.appendChild(icon);
+            this.e = softwareBox;
+            if (typeof callbackThis === "function") {
+                callbackThis(this);
+            }
+        }
+        id = ++window.softwareSys.id;
+    }
+    //Basic Part
+    /////////////////////////////////////////////////////////////
+    //Code Part
+
+    window.onload = function() {
+        window.sys = new system();
+        window.softwareSys = new initSoftwareBox();
+
+
+        //Alert
+        alert = function(str) {
+            sys.createWindow(new basicWindow(function(obj) {
+                classicWordStyle(obj.childElements.windowBody);
+                obj.e.style.height = "70px";
+                obj.minSize = [160, 70];
+                obj.maxSize = [500, 200];
+                obj.childElements.windowBody.innerHTML = String(str);
+                obj.setTitle = "Alert";
+                obj.setIcon = resourceUrl + "icon/alert.png";
+                obj.maximize.enable = false;
+            }));
+        }
+
+        softwareSys.addSoftware(new software(undefined, "DefaultStyle", undefined, function(e) {
+            mouseEvents.regDoubleClick(e, function(e) {
+                sys.createWindow(new basicWindow());
+            }, 250);
+        }, function(e) {
+            //...
+        }));
+        // softwareSys.addSoftware(new software(undefined, "err", undefined, function (e) {
+        //     console.log(error);
+        // }))
+        window.onerror = function(ev, source, lineno, colno, error) {
+            var errorCatchObj = window.sys.getWindowObjectsByType("ERROR_CATCH")[0];
+            // console.log(errorCatchObj);
+            var errorInfo = "";
+            var errSplit = error.stack.split("\n");
+            for (var i = 0; i < errSplit.length; i++) {
+                errorInfo += `<div class="SW_ERROR_Text">&gt; ${errSplit[i]}</div>`;
+            }
+            var bugReport = `<div class="SW_ERROR_Div">
+            <img src="${resourceUrl}icon/error.png" class="SW_ERROR_DivIcon">
+            <div class="SW_ERROR_Title">[${String(new Date()).split(" ")[4]}]${ev}</div>
+            ${errorInfo}
+            </div>`;
+            if (!errorCatchObj) {
+                errorCatchObj = new basicWindow(function(obj) {
+                    obj.type = "ERROR_CATCH";
+                    obj.setTitle = "Error &lt;Global&gt;";
+                    obj.setIcon = resourceUrl + "icon/bugReportIcon.png";
+                    obj.e.style.width = "500px";
+                });
+                window.sys.createWindow(errorCatchObj);
+            }
+            promoteLayer(errorCatchObj.e);
+            errorCatchObj.childElements.windowBody.innerHTML += bugReport;
+            errorCatchObj.childElements.windowBody.scroll(0, errorCatchObj.childElements.windowBody.lastElementChild.offsetTop);
+
+        }
+
+        window.softwareSys.addSoftware(new software(resourceUrl + "icon/cmd.png", "Debug", function(obj) {
+
+        }, function(e) {
+            mouseEvents.regDoubleClick(e, function(e) {
+                window.createDebugWindow();
+            }, 250);
+        }));
+        window.createDebugWindow = function() {
+            window.sys.createWindow(new basicWindow(function(obj) {
+                obj.setTitle = "Debug";
+                obj.setIcon = resourceUrl + "icon/cmd.png";
+                obj.e.style.backgroundImage = "none";
+                obj.e.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+                obj.e.style.width = "500px";
+                obj.e.style.height = "400px";
+                var infoDiv = document.createElement("div");
+                infoDiv.className = "SW_DEBUG_InfoDiv";
+                infoDiv.innerHTML = `<div class="SW_DEBUG_Info">Debug Console [${new Date().toLocaleString()}]</div>`;
+                var inputDiv = document.createElement("div");
+                inputDiv.className = "SW_DEBUG_InputDiv";
+                var debugInput = document.createElement("input");
+                debugInput.className = "SW_DEBUG_Input";
+                debugInput.value = "";
+                var execBtn = document.createElement("img");
+                execBtn.className = "SW_DEBUG_ExecBtn";
+                execBtn.src = resourceUrl + "icon/exec.png";
+                execBtn.onclick = function(e) {
+                    e.cancelBubble = true;
+                    infoDiv.innerHTML += `<div class="SW_DEBUG_Info">${eval(debugInput.value)}</div>`;
+                    debugInput.value = "";
+                }
+                debugInput.onkeydown = function(ev) {
+                    if (ev.keyCode === 13) {
+                        execBtn.onclick(ev);
+                        infoDiv.scroll(0, infoDiv.lastElementChild.offsetTop);
+                    }
+                }
+                inputDiv.appendChild(debugInput);
+                inputDiv.appendChild(execBtn);
+                obj.childElements.windowBody.appendChild(infoDiv);
+                obj.childElements.windowBody.appendChild(inputDiv);
+            }));
+        }
+        window.createWindowManager = function() {
+            window.sys.createWindow(new basicWindow(function(obj) {
+                obj.setTitle = "Window Manager";
+                obj.setIcon = resourceUrl + "icon/windowManager.png";
+                obj.e.style.width = "400px";
+                obj.e.style.height = "300px";
+                obj.minSize = [300, 200];
+                obj.childElements.windowBody.style.backgroundImage = "linear-gradient(to bottom,rgb(51, 51, 51),rgb(32, 32, 32))";
+                var buttonBox = document.createElement("div");
+                buttonBox.className = "SW_WINDOW_MANAGER_buttonBox";
+                var windowList = document.createElement("div");
+                windowList.className = "SW_WINDOW_MANAGER_windowList";
+                var lastClickTask = {
+                    e: undefined,
+                    windowId: undefined
+                };
+
+                function refreshList() {
+                    windowList.innerHTML = "";
+                    // lastClickTask.e = window.sys.windows.length === 0 ? undefined : lastClickTask.e;
+                    lastClickTask.e = undefined;
+                    lastClickTask.windowId = undefined;
+                    for (var i = 0; i < window.sys.windows.length; i++) {
+                        timer(30 * i, i, function(i) {
+                            var task = document.createElement("div");
+                            task.className = "SW_WINDOW_MANAGER_task";
+                            task.taskId = window.sys.windows[i].id;
+                            task.onclick = function() {
+                                if (typeof lastClickTask.e === "object") {
+                                    lastClickTask.e.style.borderBottom = "3px solid rgba(131, 180, 255, 0.637)";
+                                }
+                                lastClickTask.e = this;
+                                lastClickTask.windowId = this.taskId;
+                                this.style.borderBottom = "3px solid rgba(170, 255, 131, 0.637)";
+                            }
+                            var taskImg = document.createElement("img");
+                            taskImg.src = window.sys.windows[i].childElements.iconE.src;
+                            var taskName = document.createElement("div");
+                            taskName.innerHTML = window.sys.windows[i].childElements.titleE.innerHTML;
+                            var taskId = document.createElement("div");
+                            taskId.innerHTML = "WID: " + window.sys.windows[i].id;
+                            taskName.appendChild(taskId);
+                            task.appendChild(taskImg);
+                            task.appendChild(taskName);
+                            windowList.appendChild(task);
+                        });
+
+                    }
+                }
+                refreshList();
+
+                var refreshBtn = document.createElement("div");
+                refreshBtn.className = "SW_WINDOW_MANAGER_btn";
+                refreshBtn.innerHTML = "刷新";
+                refreshBtn.onclick = refreshList;
+                var closeBtn = document.createElement("div");
+                closeBtn.className = "SW_WINDOW_MANAGER_btn";
+                closeBtn.innerHTML = "关闭";
+                closeBtn.onclick = function() {
+                    if (lastClickTask.e && lastClickTask.windowId !== undefined) {
+                        // console.log(lastClickTask.windowObj)
+                        window.sys.closeWindow(lastClickTask.windowId);
+                        refreshList();
+                    }
+                }
+                var closeAllBtn = document.createElement("div");
+                closeAllBtn.className = "SW_WINDOW_MANAGER_btn";
+                closeAllBtn.innerHTML = "关闭所有";
+                closeAllBtn.onclick = function() {
+                    window.sys.closeAll();
+                }
+
+                buttonBox.appendChild(refreshBtn);
+                buttonBox.appendChild(closeBtn);
+                buttonBox.appendChild(closeAllBtn);
+
+                obj.childElements.windowBody.appendChild(buttonBox);
+                obj.childElements.windowBody.appendChild(windowList);
+            }));
+        }
+        window.softwareSys.addSoftware(new software(resourceUrl + "icon/windowManager.png", "窗口管理器", undefined, function(e) {
+            mouseEvents.regDoubleClick(e, function(e) {
+                window.createWindowManager();
+            }, 250);
+        }));
+    }
+</script>
+
+</html>

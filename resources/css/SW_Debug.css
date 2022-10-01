@@ -1,0 +1,66 @@
+/*Software-Debug*/
+/*Start*/
+
+.SW_DEBUG_InfoDiv {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: calc(100% - 40px);
+    overflow: auto;
+}
+
+.SW_DEBUG_InputDiv {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    height: 40px;
+}
+
+.SW_DEBUG_Input {
+    outline: none;
+    height: 30px;
+    position: absolute;
+    left: 4px;
+    top: 0;
+    width: calc(100% - 44px);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid rgb(104, 104, 104);
+    background-color: transparent;
+    transition: border-bottom .3s linear;
+    font-size: 20px;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.SW_DEBUG_Input:focus {
+    border-bottom: 2px solid rgb(209, 209, 209);
+}
+
+.SW_DEBUG_ExecBtn {
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+    height: 30px;
+    margin: 0;
+}
+
+.SW_DEBUG_ExecBtn:hover {
+    background-color: rgba(175, 175, 175, 0.4);
+}
+
+.SW_DEBUG_ExecBtn:active {
+    background-color: rgba(221, 221, 221, 0.4);
+}
+
+.SW_DEBUG_Info {
+    font-size: 20px;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-left: 4px;
+    word-break: break-all;
+}
+/*End*/

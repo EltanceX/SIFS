@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- https://github.com/AquaDew/SIFS -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIFS Login</title>
+    <link rel="shortcut icon" href="" />
+    <style>
+        body {
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-image: url("/wallpaper/Windows_7_Starter.png");
+            overflow: hidden;
+        }
+
+        .main {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            height: 300px;
+            width: 350px;
+            border: 2px solid rgba(255, 255, 255, 0.692);
+            background-color: rgba(255, 255, 255, 0.39);
+            border-radius: 3px;
+            box-shadow: 5px 5px 10px rgba(214, 214, 214, 0.596);
+        }
+
+        .logo {
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            height: 70px;
+            top: 10px;
+            background-color: rgba(255, 255, 255, 0.527);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .inputBox {
+            position: relative;
+            height: 40px;
+            left: 0;
+            width: 100%;
+            /* border: 1px solid red; */
+            margin-top: 20px;
+        }
+
+        .inputBox>img {
+            position: absolute;
+            left: 10px;
+            margin: 0;
+            height: 100%;
+        }
+
+        .inputBox>input {
+            position: relative;
+            left: 60px;
+            height: 100%;
+            width: calc(100% - 70px);
+            outline: none;
+            background-color: rgba(255, 255, 255, 0);
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.65);
+            font-size: 25px;
+            color: white;
+            transition: border-bottom .3s linear;
+        }
+
+        .inputBox>input:focus {
+            border-bottom: 3px solid rgba(255, 255, 255, 1.0);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        img {
+            user-select: none;
+        }
+
+        .btn {
+            position: relative;
+            left: 30px;
+            width: calc(100% - 60px);
+            height: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.952);
+            margin-top: 30px;
+            background-color: rgba(250, 250, 250, 0.74);
+            border-radius: 3px;
+            text-align: center;
+            font-size: 24px;
+            color: rgb(102, 163, 255);
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: rgba(243, 243, 243, 0.705);
+        }
+
+        .btn:active {
+            background-color: rgba(247, 247, 247, 0.842);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <img class="logo" src="/icon/logo_smaller.png" ondblclick="window.open('https://github.com/AquaDew/SIFS')"
+            title="ShimmerIslandFS-Login" />
+        <div class="inputBox" style="margin-top: 90px;">
+            <img src="/icon/input_name.png" />
+            <input type="text" id="uname" value="" />
+        </div>
+        <div class="inputBox">
+            <img src="/icon/input_pwd.png" />
+            <input type="password" id="pwd" value="" />
+        </div>
+        <div class="btn">Login</div>
+    </div>
+</body>
+<script src="/js/xhr.js"></script>
+<script src="/js/popup.js"></script>
+<script>
+    var uname = document.getElementById("uname");
+    var pwd = document.getElementById("pwd");
+    var btn = document.getElementsByClassName("btn")[0];
+    var time = 0;//new Date().getTime();
+    pwd.onkeydown = function (ev) {
+        if (ev.keyCode === 13) {
+            btn.onclick();
+        }
+    }
+    uname.onkeydown = pwd.onkeydown;
+    var failTime = 0;
+    window.onload = function () {
+        var imgs = document.getElementsByTagName("img");
+        for (var i = 0; i < imgs.length; i++) {
+            imgs[i].ondragstart = function () {
+                return false;
+            }
+        }
+        getRequest("/getid", function (err, data) {
+            if (data) {
+                uname.value = data;
+                pwd.value = "autoLogin";
+            }
+        })
+    }
+
+    btn.onclick = function () {
+        var date = new Date().getTime();
+        if (date - time >= 1000) {
+            time = date;
+            getRequest(`/login?name=${uname.value}&pwd=${pwd.value}`, function (err, data) {
+                if (err) {
+                    failTime++;
+                    if (err === 412) {
+                        popup("用户名或密码错误.", 2000);
+                    } else if (err === 400) {
+                        popup("操作频繁.", 2000);
+                    }
+                    if (failTime >= 3) {
+                        popup("多次登陆失败, IP地址已被记录.", 5e3);
+                        failTime = -Infinity;
+                    }
+                } else {
+                    popup("登陆成功", 3000);
+                    setTimeout(() => {
+                        window.location.href = "/window";
+                    }, 1000);
+                }
+            });
+            uname.value = "";
+            pwd.value = "";
+        } else {
+            popup("操作频繁.");
+        }
+    }
+</script>
+
+</html>

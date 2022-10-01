@@ -1,0 +1,98 @@
+/*Software-Window Manager*/
+
+
+/*Start*/
+
+.SW_WINDOW_MANAGER_buttonBox {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 0;
+    width: calc(100% - 8px);
+    border-bottom: 2px solid rgba(245, 245, 245, 0.801);
+    margin-top: 4px;
+    margin-left: 4px;
+    user-select: none;
+}
+
+.SW_WINDOW_MANAGER_btn {
+    text-align: center;
+    height: 100%;
+    width: fit-content;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    /* border: 2px solid rgba(204, 204, 204, 0.7); */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    cursor: pointer;
+    background-color: rgba(105, 105, 105, 0.5);
+    display: inline-block;
+    margin-right: 2px;
+}
+
+.SW_WINDOW_MANAGER_btn:hover {
+    background-color: rgba(180, 180, 180, 0.3);
+}
+
+.SW_WINDOW_MANAGER_btn:active {
+    background-color: rgba(85, 85, 85, 0.4);
+}
+
+.SW_WINDOW_MANAGER_windowList {
+    position: relative;
+    left: 0;
+    width: 100%;
+    margin-top: 5px;
+    /* border: 1px solid red; */
+}
+
+.SW_WINDOW_MANAGER_task {
+    position: relative;
+    left: 4px;
+    width: calc(100% - 8px);
+    margin-top: 5px;
+    border-bottom: 3px solid rgba(131, 180, 255, 0.637);
+    /* border-bottom:3px solid rgba(170, 255, 131, 0.637); */
+    user-select: none;
+    overflow: hidden;
+}
+
+.SW_WINDOW_MANAGER_task:hover {
+    background-color: rgba(185, 213, 255, 0.568);
+}
+
+.SW_WINDOW_MANAGER_task:active {
+    background-color: rgba(162, 199, 255, 0.555);
+}
+
+.SW_WINDOW_MANAGER_task>img {
+    height: 30px;
+    left: 0;
+    position: absolute;
+}
+
+.SW_WINDOW_MANAGER_task>div {
+    margin-left: 34px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 25px;
+    color: white;
+    height: 30px;
+    overflow: hidden;
+}
+
+.SW_WINDOW_MANAGER_task>div>div {
+    position: absolute;
+    right: 4px;
+    margin: 0;
+    top: 0;
+    height: 100%;
+    color: rgb(181, 255, 121);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 25px;
+}
+
+
+/*End*/
